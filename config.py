@@ -1,23 +1,33 @@
+"""Environment-backed configuration. Never put live credentials in source control."""
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Telegram API
-API_ID = int(os.getenv("API_ID", 6435225))  
-API_HASH = os.getenv("API_HASH", "4e984ea35f854762dcde906dce426c2d")
+def _int_env(name: str, default: int = 0) -> int:
+    value = os.getenv(name, "").strip()
+    if not value:
+        return default
+    try:
+        return int(value)
+    except ValueError as exc:
+        raise RuntimeError(f"{name} must be an integer") from exc
 
-# Bot Token / String Session
-BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-STRING1 = os.getenv("STRING_SESSION", None)
+# Telegram API credentials (obtain from https://my.telegram.org)
+API_ID = _int_env("API_ID")
+API_HASH = os.getenv("API_HASH", "").strip()
 
-# Database
-MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://pusers:nycreation@nycreation.pd4klp1.mongodb.net/?retryWrites=true&w=majority&appName=NYCREATION")
+# Bot token / optional user session
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+STRING1 = os.getenv("STRING_SESSION") or None
 
-# Owner / Admin
-OWNER_ID = int(os.getenv("OWNER_ID", 7574330905))
-OWNER_USERNAME = os.getenv("OWNER_USERNAME", "WTF_WhyMeeh")
+# Database. Intentionally no fallback URI or embedded credentials.
+MONGO_URL = os.getenv("MONGO_URL", "").strip()
 
-# Support / Updates
-SUPPORT_GRP = os.getenv("SUPPORT_GRP", "ShrutiBotSupport")
-UPDATE_CHNL = os.getenv("UPDATE_CHNL", "ShrutiBots")
+# Owner / admin
+OWNER_ID = _int_env("OWNER_ID")
+OWNER_USERNAME = os.getenv("OWNER_USERNAME", "").strip()
+
+# Support / updates
+SUPPORT_GRP = os.getenv("SUPPORT_GRP", "ShrutiBotSupport").strip()
+UPDATE_CHNL = os.getenv("UPDATE_CHNL", "ShrutiBots").strip()

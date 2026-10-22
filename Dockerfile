@@ -1,13 +1,7 @@
-FROM python:latest
-
-RUN apt-get update -y && apt-get upgrade -y
-
-RUN pip3 install -U pip
-
-COPY . /app/
-WORKDIR /app/
-RUN pip3 install --upgrade pip
-RUN pip3 install -U -r requirements.txt
-
-CMD bash start
-
+FROM python:3.11-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD ["python", "-m", "ShrutiCHATBOT"]
