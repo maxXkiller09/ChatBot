@@ -1,1 +1,1 @@
-worker: bash start
+web: python -m ShrutiCHATBOT
