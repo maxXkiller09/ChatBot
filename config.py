@@ -31,3 +31,12 @@ OWNER_USERNAME = os.getenv("OWNER_USERNAME", "").strip()
 # Support / updates
 SUPPORT_GRP = os.getenv("SUPPORT_GRP", "ShrutiBotSupport").strip()
 UPDATE_CHNL = os.getenv("UPDATE_CHNL", "ShrutiBots").strip()
+
+# Optional OpenAI-compatible chat-completions providers.
+# Example base URL: https://api.openai.com/v1
+PRIMARY_AI_API_KEY = os.getenv("PRIMARY_AI_API_KEY", "").strip()
+PRIMARY_AI_BASE_URL = os.getenv("PRIMARY_AI_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
+PRIMARY_AI_MODEL = os.getenv("PRIMARY_AI_MODEL", "gpt-4o-mini").strip()
+BACKUP_AI_API_KEY = os.getenv("BACKUP_AI_API_KEY", "").strip()
+BACKUP_AI_BASE_URL = os.getenv("BACKUP_AI_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
+BACKUP_AI_MODEL = os.getenv("BACKUP_AI_MODEL", "gpt-4o-mini").strip()
