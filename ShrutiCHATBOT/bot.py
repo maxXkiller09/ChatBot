@@ -32,6 +32,11 @@ async def log_incoming_update(_, message):
     log.info("Incoming Telegram update: chat_type=%s chat_id=%s sender_id=%s has_text=%s",
              message.chat.type, message.chat.id, sender_id, bool(message.text or message.caption))
 
+@app.on_raw_update()
+async def log_raw_update(_, update, users, chats):
+    # Raw updates help distinguish Telegram delivery issues from message-handler issues.
+    log.info("Raw Telegram update received: %s", type(update).__name__)
+
 async def ask(base, key, model, messages):
     if not key:
         return None
