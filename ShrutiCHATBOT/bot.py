@@ -25,6 +25,13 @@ app = Client("shruti-chatbot", api_id=config.API_ID, api_hash=config.API_HASH,
 history = defaultdict(lambda: deque(maxlen=10))
 enabled = defaultdict(lambda: True)
 
+# Diagnostic handler: confirms whether Telegram updates reach this process.
+@app.on_message(filters.all, group=-100)
+async def log_incoming_update(_, message):
+    sender_id = message.from_user.id if message.from_user else None
+    log.info("Incoming Telegram update: chat_type=%s chat_id=%s sender_id=%s has_text=%s",
+             message.chat.type, message.chat.id, sender_id, bool(message.text or message.caption))
+
 async def ask(base, key, model, messages):
     if not key:
         return None
